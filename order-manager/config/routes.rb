@@ -1,4 +1,6 @@
 OrderManager::Application.routes.draw do
+  resources :products
+
   get "home/index"
 
   # The priority is based upon order of creation:

@@ -10,7 +10,7 @@ Requirements:
 * Each product has a unique name, and a (net) price
 * Users should be able to add/edit orders
 * Orders cannot be deleted
-* Each order has an customisable order-date (must not be in the past when created) and a VAT
+* Each order has a customizable order-date (must not be in the past when created) and a VAT
   (percentage) which should default to 20% but should be configurable (through an app-wide
   constant)
 * Orders can have multiple line items
