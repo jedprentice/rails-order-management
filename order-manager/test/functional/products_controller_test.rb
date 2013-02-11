@@ -19,6 +19,19 @@ class ProductsControllerTest < ActionController::TestCase
     assert_equal expected.price.to_s, object['price'], 'Wrong price'
   end
 
+  test 'create' do
+    object = {:name => 'test create', :price => '1.99'}
+    puts object.to_json
+
+    request.env['RAW_POST_DATA'] = object.to_json
+    post(:save, object.to_json, :type => :json)
+    assert_response :success
+
+    product = Product.where(:name => object[:name]).first
+    assert !product.nil?
+    product.delete
+  end
+
   private
 
   def parse_response
