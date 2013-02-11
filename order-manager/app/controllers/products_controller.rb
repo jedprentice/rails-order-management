@@ -12,5 +12,6 @@ class ProductsController < ApplicationController
   def save
     product = Product.where(:id => params[:id]).first_or_create
     product.update_attributes!(params)
+    render :json => Product.where(params[:name]).first
   end
 end

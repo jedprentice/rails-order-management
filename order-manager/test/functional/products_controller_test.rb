@@ -21,9 +21,6 @@ class ProductsControllerTest < ActionController::TestCase
 
   test 'create' do
     object = {:name => 'test create', :price => '1.99'}
-    puts object.to_json
-
-    request.env['RAW_POST_DATA'] = object.to_json
     post(:save, object.to_json, :type => :json)
     assert_response :success
 
