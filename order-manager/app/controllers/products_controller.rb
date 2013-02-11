@@ -9,9 +9,14 @@ class ProductsController < ApplicationController
     render :json => Product.find(params[:id])
   end
 
-  def save
-    product = Product.where(:id => params[:id]).first_or_create
-    product.update_attributes!(params)
+  def create
+    save(Product.new)
+  end
+
+  private
+
+  def save(product)
+    product.update_attributes!(params[:product])
     render :json => Product.where(params[:name]).first
   end
 end

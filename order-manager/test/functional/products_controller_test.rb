@@ -20,12 +20,13 @@ class ProductsControllerTest < ActionController::TestCase
   end
 
   test 'create' do
-    object = {:name => 'test create', :price => '1.99'}
-    post(:save, object.to_json, :type => :json)
+    object = {:product => {:name => 'test create', :price => '1.99'}}
+    post(:create, object, :type => :json)
     assert_response :success
 
-    product = Product.where(:name => object[:name]).first
-    assert !product.nil?
+    product = Product.where(:name => object[:product][:name]).first
+    assert !product.nil?, 'Product should have been saved'
+    assert !product.id.nil?, 'Product should have an ID'
     product.delete
   end
 
