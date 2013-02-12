@@ -26,6 +26,6 @@ class ProductsController < ApplicationController
 
   def save(product)
     product.update_attributes!(params[:product])
-    render :json => Product.where(params[:name]).first
+    render :json => product
   end
 end
