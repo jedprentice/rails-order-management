@@ -13,6 +13,10 @@ class ProductsController < ApplicationController
     save(Product.new)
   end
 
+  def update
+    save(Product.find(params[:id]))
+  end
+
   private
 
   def save(product)
