@@ -37,7 +37,22 @@ class ProductsControllerTest < ActionController::TestCase
     product = Product.find(params[:id])
     assert_equal params[:product][:price], product.price.to_s, 'Product was not updated'
   end
-  
+
+  test 'delete' do
+    product = Product.new(:name => 'test delete', :price => '1.99')
+    product.save
+
+    delete(:destroy, {:id => product.id}, :type => :json)
+    
+    begin
+      Product.find(product.id)
+      product.delete
+      fail 'Product should have been deleted'
+    rescue
+      # Expected
+    end
+  end
+
   private
 
   def parse_response

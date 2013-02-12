@@ -17,6 +17,11 @@ class ProductsController < ApplicationController
     save(Product.find(params[:id]))
   end
 
+  def destroy
+    Product.destroy(params[:id])
+    render :json => params[:id]
+  end
+
   private
 
   def save(product)
