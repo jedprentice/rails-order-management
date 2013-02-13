@@ -16,9 +16,25 @@ class OrderTest < ActiveSupport::TestCase
     assert_equal expected.vat, order.vat, 'Wrong vat'
   end
 
+  test 'validate order date' do
+    check_validate_presence(:order_date)
+  end
+
+  test 'validate vat' do
+    check_validate_presence(:vat)
+  end
+
   test 'validate status' do
     order = Order.new
     order.status = 'bad'
+    assert_invalid_save order, 2
+  end
+
+  private
+
+  def check_validate_presence(attr)
+    order = Order.find(orders(:one).id)
+    order[attr] = nil
     assert_invalid_save order, 2
   end
 end
