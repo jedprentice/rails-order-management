@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  order_date: Time.now
+  vat: 0.2
+  status: Placed
+  notes:
+
+two:
+  order_date: Time.n
+  vat: 0.2
+  status: Paid
+  notes:

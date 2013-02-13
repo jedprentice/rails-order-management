@@ -1,4 +1,6 @@
 OrderManager::Application.routes.draw do
+  resources :orders
+
   resources :products
 
   get "home/index"

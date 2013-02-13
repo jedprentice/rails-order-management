@@ -10,4 +10,9 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+
+  def assert_invalid_save(model, expected_count)
+    model.save
+    assert_equal expected_count, model.class.name.constantize.count, 'Wrong number of models'
+  end
 end
