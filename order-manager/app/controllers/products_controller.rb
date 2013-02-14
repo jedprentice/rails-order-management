@@ -6,26 +6,18 @@ class ProductsController < ApplicationController
   end
 
   def show
-    render :json => Product.find(params[:id])
+    show_model(Product)
   end
 
   def create
-    save(Product.new)
+   create_model(Product)
   end
 
   def update
-    save(Product.find(params[:id]))
+    update_model(Product)
   end
 
   def destroy
-    Product.destroy(params[:id])
-    render :json => params[:id]
-  end
-
-  private
-
-  def save(product)
-    product.update_attributes!(params[:product])
-    render :json => product
+    destroy_model(Product)
   end
 end
