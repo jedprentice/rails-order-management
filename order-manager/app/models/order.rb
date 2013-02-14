@@ -6,7 +6,9 @@ class Order < ActiveRecord::Base
 
   attr_accessible :notes, :order_date, :status, :vat
 
-  validates :order_date, :vat, {:presence => true}
+  has_many :line_items, :inverse_of => :order
+
+  validates :order_date, :vat, :presence => true
   validates_inclusion_of :status, :in => [DRAFT, PLACED, PAID, CANCELLED]
 
   after_initialize :set_defaults
