@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'json'
 
 class ProductsControllerTest < ActionController::TestCase
   test 'index' do
@@ -51,11 +50,5 @@ class ProductsControllerTest < ActionController::TestCase
     rescue
       # Expected
     end
-  end
-
-  private
-
-  def parse_response
-    JSON.parse(@controller.response.body)
   end
 end

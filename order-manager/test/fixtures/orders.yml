@@ -7,7 +7,7 @@ one:
   notes:
 
 two:
-  order_date: Time.n
+  order_date: Time.now + 60 * 60
   vat: 0.2
   status: Paid
   notes:

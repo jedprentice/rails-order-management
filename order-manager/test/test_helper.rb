@@ -1,6 +1,7 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
+require 'json'
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
@@ -14,5 +15,11 @@ class ActiveSupport::TestCase
   def assert_invalid_save(model, expected_count)
     model.save
     assert_equal expected_count, model.class.name.constantize.count, 'Wrong number of models'
+  end
+
+  protected
+
+  def parse_response
+    JSON.parse(@controller.response.body)
   end
 end
