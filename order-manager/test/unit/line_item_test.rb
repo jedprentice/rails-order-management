@@ -1,6 +1,9 @@
 require 'test_helper'
 
 class LineItemTest < ActiveSupport::TestCase
-  # test "the truth" do #   assert true
-  # end
+  test 'nonzero quantity' do
+    line_item = line_items(:one)
+    line_item.quantity = 0
+    assert_invalid line_item, :quantity
+  end
 end
