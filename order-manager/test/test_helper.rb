@@ -12,9 +12,9 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 
-  def assert_invalid_save(model, expected_count)
-    model.save
-    assert_equal expected_count, model.class.name.constantize.count, 'Wrong number of models'
+  def assert_invalid(model, attribute)
+    assert model.invalid?
+    assert !model.errors[attribute].empty?, "No errors for #{attribute}"
   end
 
   protected

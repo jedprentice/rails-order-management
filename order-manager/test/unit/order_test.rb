@@ -27,7 +27,7 @@ class OrderTest < ActiveSupport::TestCase
   test 'validate status' do
     order = Order.new
     order.status = 'bad'
-    assert_invalid_save order, 2
+    assert_invalid order, :status
   end
 
   private
@@ -35,6 +35,6 @@ class OrderTest < ActiveSupport::TestCase
   def check_validate_presence(attr)
     order = Order.find(orders(:one).id)
     order[attr] = nil
-    assert_invalid_save order, 2
+    assert_invalid order, attr
   end
 end
