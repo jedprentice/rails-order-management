@@ -37,7 +37,7 @@ class ProductsControllerTest < ActionController::TestCase
     assert_equal params[:product][:price], product.price.to_s, 'Product was not updated'
   end
 
-  test 'delete' do
+  test 'destroy' do
     product = Product.new(:name => 'test delete', :price => '1.99')
     product.save
 
