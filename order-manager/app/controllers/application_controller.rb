@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
     save_model(find_model(clazz))
   end
 
+  # TODO: This doesn't work for classes like LineItem => :line_item; fix
   def save_model(model)
     model.update_attributes!(params[model.class.name.downcase.to_sym])
     render :json => model
