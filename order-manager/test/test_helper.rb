@@ -13,7 +13,7 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
 
   def assert_invalid(model, attribute)
-    assert model.invalid?
+    assert model.invalid?, "#{model} should be invalid"
     assert !model.errors[attribute].empty?, "No errors for #{attribute}"
   end
 

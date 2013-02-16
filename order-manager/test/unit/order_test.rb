@@ -24,11 +24,41 @@ class OrderTest < ActiveSupport::TestCase
     check_validate_presence(:vat)
   end
 
-  test 'validate status' do
+  test 'validate status inclusion of' do
     order = Order.new
     order.status = 'bad'
     assert_invalid order, :status
   end
+
+  test 'validate status draft-to-placed' do
+    order = Order.new
+    order.status = Order::PLACED
+    assert_invalid order, :status
+
+    order.line_items << LineItem.new(:order => order, :product => products(:one), :quantity => 1)
+    assert order.valid?, 'Order should be valid'
+  end
+
+#  test 'validate draft-to-cancelled' do
+#    order = Order.new
+#    order.status = Order::CANCELLED
+#    assert_invalid order, :status
+#
+#    order.notes = 'Order cancelled in test_validate_draft_to_cancelled'
+#    assert_valid order
+#  end
+#
+#  test 'validate placed-to-cancelled' do
+#    order = Order.new(:status => Order::PLACED)
+#    order.line_items << LineItem.new(:order => order, :product => products(:one), :quantity => 1)
+#    assert_valid order
+#
+#    order.status = Order::CANCELLED
+#    assert_invalid order, :status
+#
+#    order.notes = 'Order cancelled in test_validate_draft_to_cancelled'
+#    assert_valid order
+#  end
 
   private
 
@@ -36,5 +66,9 @@ class OrderTest < ActiveSupport::TestCase
     order = Order.find(orders(:one).id)
     order[attr] = nil
     assert_invalid order, attr
+  end
+
+  def assert_valid(order)
+    assert order.valid?, "#{order} should be valid"
   end
 end
