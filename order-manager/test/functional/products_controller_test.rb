@@ -23,7 +23,7 @@ class ProductsControllerTest < ActionController::TestCase
     post(:create, params, :type => :json)
     assert_response :success
 
-    product = Product.where(:name => params[:product][:name]).first
+    product = Product.find_by_name(params[:product][:name])
     assert !product.nil?, 'Product should have been saved'
     assert !product.id.nil?, 'Product should have an ID'
     product.delete

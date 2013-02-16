@@ -1,5 +1,5 @@
 class LineItem < ActiveRecord::Base
-  attr_accessible :quantity
+  attr_accessible :order_id, :product_id, :quantity
 
   belongs_to :order, :inverse_of => :line_items
   belongs_to :product

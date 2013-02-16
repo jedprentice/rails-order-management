@@ -14,7 +14,7 @@ class OrdersControllerTest < ActionController::TestCase
     post(:create, {}, :type => :json)
     assert_response :success
 
-    order = Order.find(:all).first
+    order = Order.find_by_status(Order::DRAFT)
     assert !order.nil?, 'Order should have been saved'
     assert !order.id.nil?, 'Order should have an ID'
     order.delete
