@@ -27,33 +27,30 @@ class LineItemsControllerTest < ActionController::TestCase
     line_item.delete
   end
 
-#  test 'update' do
-#    line_item = line_items(:one)
-#    params = {
-#      :id => line_item.id,
-#      :line_item => {
-#        :product => {:id => line_item.product_id},
-#        :quantity => 2
-#      }
-#    }
-#
-#    put(:update, params, :type => :json)
-#    line_item = LineItem.find(params[:id])
-#    assert_equal params[:line_item][:quantity].to_i, line_item.quantity, 'Quantity was not updated'
-#  end
-#
-#  test 'destroy' do
-#    line_item = LineItem.new(:order_id => orders(:one).id, :product_id => products(:one).id, :quantity => 5)
-#    line_item.save
-#
-#    delete(:destroy, {:id => line_item.id}, :type => :json)
-#
-#    begin
-#      LineItem.find(line_item.id)
-#      line_item.delete
-#      fail 'Line item should have been deleted'
-#    rescue
-#      # Expected
-#    end
-#  end
+  test 'update' do
+    line_item = line_items(:one)
+    params = {
+      :id => line_item.id,
+      :line_item => {:quantity => 2}
+    }
+
+    put(:update, params, :type => :json)
+    line_item = LineItem.find(params[:id])
+    assert_equal params[:line_item][:quantity].to_i, line_item.quantity, 'Quantity was not updated'
+  end
+
+  test 'destroy' do
+    line_item = LineItem.new(:order => orders(:one), :product => products(:one), :quantity => 5)
+    line_item.save
+
+    delete(:destroy, {:id => line_item.id}, :type => :json)
+
+    begin
+      LineItem.find(line_item.id)
+      line_item.delete
+      fail 'Line item should have been deleted'
+    rescue
+      # Expected
+    end
+  end
 end
