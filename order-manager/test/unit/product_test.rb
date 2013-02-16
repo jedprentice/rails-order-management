@@ -12,4 +12,13 @@ class ProductTest < ActiveSupport::TestCase
   test 'save empty price' do
     assert_invalid Product.new(:name => 'test save empty price'), :price
   end
+
+  test 'destroy ordered product' do
+    begin
+      Product.destroy(products(:one).id)
+      fail 'Product should not have been destroyed'
+    rescue
+      # Expected
+    end
+  end
 end
