@@ -1,21 +1,21 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  order: one (Order)
-  product: one (Product)
+  order: placed
+  product: one
   quantity: 1
 
 two:
-  order: one (Order)
-  product: two (Product)
+  order: placed
+  product: two
   quantity: 2
 
 three:
-  order: two (Order)
-  product: one (Product)
+  order: paid
+  product: one
   quantity: 3
 
 four:
-  order: two (Order)
-  product: two (Product)
+  order: paid
+  product: two
   quantity: 4
