@@ -26,7 +26,8 @@ class OrdersControllerTest < ActionController::TestCase
       :order => {
         :order_date => Time.now,
         :vat => Rails.application.config.vat,
-        :status => Order::CANCELLED
+        :status => Order::CANCELLED,
+        :notes => 'Order cancelled',
       }
     }
 
@@ -34,5 +35,6 @@ class OrdersControllerTest < ActionController::TestCase
     order = Order.find(params[:id])
     assert_equal params[:order][:order_date].to_i, order.order_date.to_i, 'Date was not updated'
     assert_equal params[:order][:status], order.status, 'Status was not updated'
+    assert_equal params[:order][:notes], order.notes, 'Notes were not updated'
   end
 end

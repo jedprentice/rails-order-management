@@ -1,20 +1,45 @@
 class StatusValidator < ActiveModel::EachValidator
+  def initialize(options)
+    super
+    @validations = [:ensure_valid_transition, :ensure_line_items_present, :ensure_notes_present]
+  end
+
   def validate_each(record, attribute, value)
-    puts "\nvalidate_each: #{attribute} '#{record.status_was}' to '#{value}'\n"
-    if record.status_was == Order::DRAFT
-      next_statuses = [Order::PLACED, Order::CANCELLED]
-      unless next_statuses.include?(value)
-        record.errors.add(attribute, "#{self.status_was} can only go to #{next_statuses}")
-        return
+    @validations.each do |validation|
+      if record.errors.empty?
+        self.send(validation, record, attribute, value)
       end
-      if value == Order::PLACED && (record.line_items.nil? || record.line_items.empty?)
-        record.errors.add(attribute, 'Order must have line items to go from draft to placed')
-        return
-      end
-      if value == Order::CANCELLED && record.notes.blank?
-        record.errors.add(attribute, 'A note must be added to cancel')
-        return
-      end
+    end
+  end
+
+  private
+
+  def ensure_valid_transition(record, attribute, value)
+    available_transitions = transitions_for(record.status_was)
+    unless record.status_was == value || available_transitions.include?(value)
+      record.errors.add(attribute, "#{record.status_was} can only go to #{available_transitions}")
+    end
+  end
+
+  def ensure_line_items_present(record, attribute, value)
+    if value == Order::PLACED && (record.line_items.nil? || record.line_items.empty?)
+      record.errors.add(attribute, 'Order must have line items to go from draft to placed')
+    end
+  end
+
+  def ensure_notes_present(record, attribute, value)
+    if value == Order::CANCELLED && record.notes.blank?
+      record.errors.add(attribute, 'A note must be added to cancel')
+    end
+  end
+
+  def transitions_for(status)
+    if status == Order::DRAFT
+      [Order::PLACED, Order::CANCELLED]
+    elsif status == Order::PLACED
+      [Order::PAID, Order::CANCELLED]
+    else
+      []
     end
   end
 end

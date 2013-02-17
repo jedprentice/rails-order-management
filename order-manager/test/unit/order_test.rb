@@ -31,12 +31,12 @@ class OrderTest < ActiveSupport::TestCase
   end
 
   test 'validate status unchanged' do
-    order = Order.new
+    order = orders(:draft)
     order.notes = 'some notes'
     assert_valid order
   end
 
-  test 'validate status draft-to-placed' do
+  test 'validate status draft to placed' do
     order = orders(:draft)
     order.status = Order::PLACED
     assert_invalid order, :status
@@ -45,8 +45,7 @@ class OrderTest < ActiveSupport::TestCase
     assert_valid order
   end
 
-  test 'validate draft-to-cancelled' do
-    puts "\nvalidate status draft-to-cancelled"
+  test 'validate draft to cancelled' do
     order = orders(:draft)
     order.status = Order::CANCELLED
     assert_invalid order, :status
@@ -55,17 +54,30 @@ class OrderTest < ActiveSupport::TestCase
     assert_valid order
   end
 
-#  test 'validate placed-to-cancelled' do
-#    order = Order.new(:status => Order::PLACED)
-#    order.line_items << LineItem.new(:order => order, :product => products(:one), :quantity => 1)
-#    assert_valid order
-#
-#    order.status = Order::CANCELLED
-#    assert_invalid order, :status
-#
-#    order.notes = 'Order cancelled in test_validate_draft_to_cancelled'
-#    assert_valid order
-#  end
+  test 'validate placed to paid' do
+    order = orders(:placed)
+    assert_valid order
+
+    order.status = Order::PAID
+    assert_valid order
+  end
+
+  test 'validate placed to cancelled' do
+    order = orders(:placed)
+    assert_valid order
+
+    order.status = Order::CANCELLED
+    assert_invalid order, :status
+
+    order.notes = 'Order cancelled in test_validate_draft_to_cancelled'
+    assert_valid order
+  end
+
+  test 'validate paid to draft' do
+    order = orders(:paid)
+    order.status = Order::DRAFT
+    assert_invalid order, :status
+  end
 
   private
 

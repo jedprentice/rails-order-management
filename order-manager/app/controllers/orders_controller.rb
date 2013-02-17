@@ -4,7 +4,9 @@ class OrdersController < ApplicationController
   end
 
   def create
-    create_model(Order)
+    order = Order.new
+    order.save
+    render :json => order
   end
 
   def update
