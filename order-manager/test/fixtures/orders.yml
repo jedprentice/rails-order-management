@@ -1,13 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  order_date: Time.now
+  order_date: <%= Time.now %>
   vat: 0.2
   status: Placed
   notes:
 
 two:
-  order_date: Time.now + 60 * 60
+  order_date: <%=  Time.now + 60 * 60 %>
   vat: 0.2
   status: Paid
+  notes:
+
+draft:
+  order_date: <%= Time.now %>
+  vat: 0.2
+  status: Draft
   notes:

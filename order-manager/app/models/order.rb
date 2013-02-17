@@ -1,4 +1,23 @@
+class StatusValidator < ActiveModel::EachValidator
+  def validate_each(record, attribute, value)
+    puts "\nvalidate_each: #{attribute} '#{record.status_was}' to '#{value}'\n"
+    if record.status_was == Order::DRAFT
+      next_statuses = [Order::PLACED, Order::CANCELLED]
+      unless next_statuses.include?(value)
+        record.errors.add(attribute, "#{self.status_was} can only go to #{next_statuses}")
+        return
+      end
+      if value == Order::PLACED && (record.line_items.nil? || record.line_items.empty?)
+        record.errors.add(attribute, 'Order must have line items to go from draft to placed')
+        return
+      end
+    end
+  end
+end
+
 class Order < ActiveRecord::Base
+  include ActiveModel::Validations
+  
   DRAFT = 'Draft'
   PLACED = 'Placed'
   PAID = 'Paid'
@@ -10,7 +29,7 @@ class Order < ActiveRecord::Base
 
   validates :order_date, :vat, :presence => true
   validates_inclusion_of :status, :in => [DRAFT, PLACED, PAID, CANCELLED]
-  validate :ensure_valid_status, :if => :status_changed?
+  validates :status, :presence => true, :status => true
 
   after_initialize :set_defaults
 
@@ -23,11 +42,4 @@ class Order < ActiveRecord::Base
       self.vat = Rails.application.config.vat
     end
   end
-
-  def ensure_valid_status
-    if self.status == PLACED && self.status_was == DRAFT && self.line_items.nil? || self.line_items.empty?
-      errors.add(:status, 'Order must have line items to go from draft to placed')
-      return
-    end
-  end 
 end

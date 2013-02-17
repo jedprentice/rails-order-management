@@ -30,13 +30,22 @@ class OrderTest < ActiveSupport::TestCase
     assert_invalid order, :status
   end
 
-  test 'validate status draft-to-placed' do
+  test 'validate status unchanged' do
     order = Order.new
+    order.notes = 'some notes'
+    assert_valid order
+  end
+
+  test 'validate status draft-to-placed' do
+    puts "\nvalidate status draft-to-placed"
+    order = orders(:draft)
     order.status = Order::PLACED
+    puts "order date is #{order.order_date}"
     assert_invalid order, :status
 
     order.line_items << LineItem.new(:order => order, :product => products(:one), :quantity => 1)
-    assert order.valid?, 'Order should be valid'
+    puts "order date is #{order.order_date}"
+    assert_valid order
   end
 
 #  test 'validate draft-to-cancelled' do
@@ -69,6 +78,7 @@ class OrderTest < ActiveSupport::TestCase
   end
 
   def assert_valid(order)
-    assert order.valid?, "#{order} should be valid"
+    is_valid = order.valid?
+    assert is_valid, "#{order} has errors #{order.errors.inspect}"
   end
 end
