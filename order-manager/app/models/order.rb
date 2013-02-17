@@ -11,6 +11,10 @@ class StatusValidator < ActiveModel::EachValidator
         record.errors.add(attribute, 'Order must have line items to go from draft to placed')
         return
       end
+      if value == Order::CANCELLED && record.notes.blank?
+        record.errors.add(attribute, 'A note must be added to cancel')
+        return
+      end
     end
   end
 end

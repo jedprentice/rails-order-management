@@ -37,26 +37,24 @@ class OrderTest < ActiveSupport::TestCase
   end
 
   test 'validate status draft-to-placed' do
-    puts "\nvalidate status draft-to-placed"
     order = orders(:draft)
     order.status = Order::PLACED
-    puts "order date is #{order.order_date}"
     assert_invalid order, :status
 
     order.line_items << LineItem.new(:order => order, :product => products(:one), :quantity => 1)
-    puts "order date is #{order.order_date}"
     assert_valid order
   end
 
-#  test 'validate draft-to-cancelled' do
-#    order = Order.new
-#    order.status = Order::CANCELLED
-#    assert_invalid order, :status
-#
-#    order.notes = 'Order cancelled in test_validate_draft_to_cancelled'
-#    assert_valid order
-#  end
-#
+  test 'validate draft-to-cancelled' do
+    puts "\nvalidate status draft-to-cancelled"
+    order = orders(:draft)
+    order.status = Order::CANCELLED
+    assert_invalid order, :status
+
+    order.notes = 'Order cancelled in test_validate_draft_to_cancelled'
+    assert_valid order
+  end
+
 #  test 'validate placed-to-cancelled' do
 #    order = Order.new(:status => Order::PLACED)
 #    order.line_items << LineItem.new(:order => order, :product => products(:one), :quantity => 1)
