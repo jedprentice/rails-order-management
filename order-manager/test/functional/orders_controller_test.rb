@@ -2,7 +2,7 @@ require 'test_helper'
 
 class OrdersControllerTest < ActionController::TestCase
   test 'show' do
-    expected = orders(:one)
+    expected = orders(:placed)
     get :show, {:id => expected.id}
     assert_response :success
 
@@ -22,7 +22,7 @@ class OrdersControllerTest < ActionController::TestCase
 
   test 'update' do
     params = {
-      :id => orders(:one).id,
+      :id => orders(:placed).id,
       :order => {
         :order_date => Time.now,
         :vat => Rails.application.config.vat,

@@ -13,7 +13,7 @@ class LineItemsControllerTest < ActionController::TestCase
   test 'create' do
     params = {
       :line_item => {
-        :order => {:id => orders(:one).id},
+        :order => {:id => orders(:placed).id},
         :product => {:id => products(:one).id},
         :quantity => 5
       }
@@ -40,7 +40,7 @@ class LineItemsControllerTest < ActionController::TestCase
   end
 
   test 'destroy' do
-    line_item = LineItem.new(:order => orders(:one), :product => products(:one), :quantity => 5)
+    line_item = LineItem.new(:order => orders(:placed), :product => products(:one), :quantity => 5)
     line_item.save
 
     delete(:destroy, {:id => line_item.id}, :type => :json)

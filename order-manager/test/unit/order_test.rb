@@ -9,7 +9,7 @@ class OrderTest < ActiveSupport::TestCase
   end
 
   test 'after_initialize existing' do
-    expected = orders(:one)
+    expected = orders(:placed)
     order = Order.find(expected.id)
     assert_equal expected.status, order.status, 'Wrong status'
     assert_equal expected.order_date, order.order_date, 'Wrong order date'
@@ -72,7 +72,7 @@ class OrderTest < ActiveSupport::TestCase
   private
 
   def check_validate_presence(attr)
-    order = Order.find(orders(:one).id)
+    order = Order.find(orders(:placed).id)
     order[attr] = nil
     assert_invalid order, attr
   end
